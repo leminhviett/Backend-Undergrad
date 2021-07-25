@@ -85,184 +85,184 @@ It is SQL. What SQL can do ?
     -   Isolation: transactions don’t affect correct result of each other. In other words, they are executed as if in a serial way, which move the DB from consistent state to another one
     -   Durability: ensure commited data never lost
 
-## 1. **Isolation** :
+## 1. **Isolation**
 
-    -   Isolation anomalies: destroy illusion of sequential execution
+-   Isolation anomalies: destroy illusion of sequential execution
 
-        1. <em>Dirty read</em>: read data from uncommitted transactions
-        2. <em>Unrepeatable read</em>: inconsistent row retrieved from different times of reading
-           `Rx(A) Wy(A) Cy Rx(A)`
-        3. <em>Phantom problem</em>: similar to <em>unrepeatable read</em>, but due to commited `UPDATE` or `DELETE` actions
-        4. <em>Lost updates</em>: unsaved changes overridden by other transaction
-           `Wx(A) Wy(A)`
+    1. <em>Dirty read</em>: read data from uncommitted transactions
+    2. <em>Unrepeatable read</em>: inconsistent row retrieved from different times of reading
+       `Rx(A) Wy(A) Cy Rx(A)`
+    3. <em>Phantom problem</em>: similar to <em>unrepeatable read</em>, but due to commited `UPDATE` or `DELETE` actions
+    4. <em>Lost updates</em>: unsaved changes overridden by other transaction
+       `Wx(A) Wy(A)`
 
-        5. Write skew: this is not defined in SQL official. Yet, it is still important. If 2 transactions happen at the same time & both write to the same data. Then 1 will fail
+    5. Write skew: this is not defined in SQL official. Yet, it is still important. If 2 transactions happen at the same time & both write to the same data. Then 1 will fail
 
-    -   <em>Issolation level</em> (can be set globally/ for each transaction; depending on application type)
-        ![](./images/DBMS/img7.png)
+-   <em>Issolation level</em> (can be set globally/ for each transaction; depending on application type)
+    ![](./images/DBMS/img7.png)
 
-        -   Concurrency control will pick the best scheduling based on isolation level set
-        -   Type of schedules:
+    -   Concurrency control will pick the best scheduling based on isolation level set
+    -   Type of schedules:
 
-            1.  Check for **serializability** (ignore aborts at first)
+        1.  Check for **serializability** (ignore aborts at first)
 
-                -   **serial schedule** is the standard (which remains the DB consistent state if all transaction preserves the consistency)
-                -   **Serializability** is the ability of a schedule that can be **equipvalence** with a **serial schedule** (in terms of db state, data values)
+            -   **serial schedule** is the standard (which remains the DB consistent state if all transaction preserves the consistency)
+            -   **Serializability** is the ability of a schedule that can be **equipvalence** with a **serial schedule** (in terms of db state, data values)
 
-                ![](./images/DBMS/img8.png)
+            ![](./images/DBMS/img8.png)
 
-                -   **There** are 2 **equipvalence** types, which meet the requirement of **serializable isolation level**:
-                    -   <em>View equipvalence</em>: 2 schedules are view equip if it has the same _"view" (do read & write operation)_ on every object value
-                    -   <em>Conflict equipvalence</em>: 2 schedules are conflict equip if it has the _same chronological execution order_ of pair of conflicting operations (`RW`, `WR`, `WW` on a object) (for every object)
-                -   A schedule is <em>view/conflict equipvalence</em> to a serial schedule is called <em>view/conflict serializability</em> schedule.
-                -   Verifying view serializability is NP-hard problem, yet conflict one is much ezier (can draw conflicting graph to determine)
+            -   **There** are 2 **equipvalence** types, which meet the requirement of **serializable isolation level**:
+                -   <em>View equipvalence</em>: 2 schedules are view equip if it has the same _"view" (do read & write operation)_ on every object value
+                -   <em>Conflict equipvalence</em>: 2 schedules are conflict equip if it has the _same chronological execution order_ of pair of conflicting operations (`RW`, `WR`, `WW` on a object) (for every object)
+            -   A schedule is <em>view/conflict equipvalence</em> to a serial schedule is called <em>view/conflict serializability</em> schedule.
+            -   Verifying view serializability is NP-hard problem, yet conflict one is much ezier (can draw conflicting graph to determine)
 
-            2.  When handling aborts (obvious truth: once commit cannot abort)
+        2.  When handling aborts (obvious truth: once commit cannot abort)
 
-                ![](./images/DBMS/img9.png)
-                ![](./images/DBMS/img10.png)
+            ![](./images/DBMS/img9.png)
+            ![](./images/DBMS/img10.png)
 
-                -   Recoverable schedule: Transaction only commits after all others which it read from. (i.e: `R1(A) W1(A) R2(A) C1 C2`)
-                -   ACA schedule: no transaction reads uncommitted data
-                    -   the recoverable one might lead to situation of 1 trans abortion leading to other abort
-                    -   The above example, if T1 aborts, T2 will do so too
-                -   Strict schedule: no transaction reads and writes uncommitted data
-                    -   this type is eziest to do clean up abort
+            -   Recoverable schedule: Transaction only commits after all others which it read from. (i.e: `R1(A) W1(A) R2(A) C1 C2`)
+            -   ACA schedule: no transaction reads uncommitted data
+                -   the recoverable one might lead to situation of 1 trans abortion leading to other abort
+                -   The above example, if T1 aborts, T2 will do so too
+            -   Strict schedule: no transaction reads and writes uncommitted data
+                -   this type is eziest to do clean up abort
 
-        -   Protocols to ensure the desired schedule
+    -   Protocols to ensure the desired schedule
 
-            1.  Lock-based
+        1.  Lock-based
 
-                -   Pros & cons:
-                    -   pros: proactively avoid conflicts when they are likely
-                    -   cons: locking overhead & potential deadlocks
-                -   2 types of lock: can be applied on different objects or the whole DB
-                    | Lock type | Read | Write |
-                    |-----------|------|-------|
-                    | Read | v | x |
-                    | Write | x | x |
+            -   Pros & cons:
+                -   pros: proactively avoid conflicts when they are likely
+                -   cons: locking overhead & potential deadlocks
+            -   2 types of lock: can be applied on different objects or the whole DB
+                | Lock type | Read | Write |
+                |-----------|------|-------|
+                | Read | v | x |
+                | Write | x | x |
 
-                    (only read-read lock alow. RW, WR, WW is not allowed)
+                (only read-read lock alow. RW, WR, WW is not allowed)
 
-                    -   Read (shared) lock
-                    -   Write (exclusive) lock
+                -   Read (shared) lock
+                -   Write (exclusive) lock
 
-                -   Types of protocol:
+            -   Types of protocol:
 
-                    -   Ways of acquiring locks
-                        -   Acquire all locks at start and release all at the end of transaction
-                        -   Acquire lock late & release lock early
-                    -   2 phase locking (2PL) protocols (**always ensure (conflict) serializability**)
-                        ![](./images/DBMS/img11.png)
+                -   Ways of acquiring locks
+                    -   Acquire all locks at start and release all at the end of transaction
+                    -   Acquire lock late & release lock early
+                -   2 phase locking (2PL) protocols (**always ensure (conflict) serializability**)
+                    ![](./images/DBMS/img11.png)
 
-                        -   2 variants:
+                    -   2 variants:
 
-                            ![](./images/DBMS/img12.png)
+                        ![](./images/DBMS/img12.png)
 
-                            -   Strict 2PL: release all locks at the end (avoid cascading aborts)
-                            -   Conservative 2PL: acquire all locks at the start (avoid dead lock)
+                        -   Strict 2PL: release all locks at the end (avoid cascading aborts)
+                        -   Conservative 2PL: acquire all locks at the start (avoid dead lock)
 
-                        -   Being both non strict &/or conservative may allow more parralel but deadlock and/or cascading aborts might happen
-                        -   The optimal one depends on how often dead lock and cascading aborts happen
+                    -   Being both non strict &/or conservative may allow more parralel but deadlock and/or cascading aborts might happen
+                    -   The optimal one depends on how often dead lock and cascading aborts happen
 
-                    -   Multi-granularity lock protocols
+                -   Multi-granularity lock protocols
 
-                        ![](./images/DBMS/img13.png)
+                    ![](./images/DBMS/img13.png)
 
-                        -   Exploit the hierachy of DB objects, locking on an object also implies lock on its children. This strategy should be used with 2PL protocol
+                    -   Exploit the hierachy of DB objects, locking on an object also implies lock on its children. This strategy should be used with 2PL protocol
 
-                        -   Introduces 2 new types of lock:
-                            ![](./images/DBMS/img14.png)
+                    -   Introduces 2 new types of lock:
+                        ![](./images/DBMS/img14.png)
 
-                            -   IS (Intention Shared): want shared lock on contained objects
-                            -   IX (Intention Exclusive): want exclusive lock on contained objects
+                        -   IS (Intention Shared): want shared lock on contained objects
+                        -   IX (Intention Exclusive): want exclusive lock on contained objects
 
-                        ![](./images/DBMS/img15.png)
+                    ![](./images/DBMS/img15.png)
 
-                        _T1 want S lock on a Page and T2 want X lock on the same page_
+                    _T1 want S lock on a Page and T2 want X lock on the same page_
 
-                        -   It means that a transaction wants to obtain S (X) lock on an object, it should obtain IS (IX, respectively) on ALL ancestors of that object
-                        -   Pros & cons:
-                            -   pros: increase degree of parallelism
-                            -   cons: increases locking overheads
+                    -   It means that a transaction wants to obtain S (X) lock on an object, it should obtain IS (IX, respectively) on ALL ancestors of that object
+                    -   Pros & cons:
+                        -   pros: increase degree of parallelism
+                        -   cons: increases locking overheads
 
-                -   Some problems:
+            -   Some problems:
 
-                    -   Deadlocks: transactions waiting in loop
+                -   Deadlocks: transactions waiting in loop
 
-                        -   2 ways of solving deadlocks:
+                    -   2 ways of solving deadlocks:
 
-                            -   Detect & resolve
-                                -   Detect: Wait for timeout or maintain waits graph
-                                -   Resolve: abort deadlocked transactions until complete resolve
-                            -   Prevent:
+                        -   Detect & resolve
+                            -   Detect: Wait for timeout or maintain waits graph
+                            -   Resolve: abort deadlocked transactions until complete resolve
+                        -   Prevent:
 
-                                -   Give locks for transactions safely based on protocol. There re 2 of them:
-                                    -   wound-wait
-                                        -   T1 causes T2 abort if T1 has higher priority
-                                        -   T1 waits for lock from T2 if T1 has lower priority
-                                    -   wait-die
-                                        -   T1 waits for lock from T2 if T1 has higher priority
-                                        -   T1 aborts itself if it has lower priority than T2
+                            -   Give locks for transactions safely based on protocol. There re 2 of them:
+                                -   wound-wait
+                                    -   T1 causes T2 abort if T1 has higher priority
+                                    -   T1 waits for lock from T2 if T1 has lower priority
+                                -   wait-die
+                                    -   T1 waits for lock from T2 if T1 has higher priority
+                                    -   T1 aborts itself if it has lower priority than T2
 
-                                Just like many other mechanisms, each has pros & cons.
+                            Just like many other mechanisms, each has pros & cons.
 
-                    -   Phantoms: `R1(A) W2(A) C2 R1(A) ...` 2 different reads have 2 different results
-                        -   To avoid phantoms:
-                            -   Predicate locking: Instead of lock only some specific rows, we lock everything satisfying the predicate. (i.e: predicate "starts with F"). _Yet, this method can be complex when the predicate becomes complex_
-                            -   Index locking: when inserting new values, it also need to update the index. By locking index, we block the new update queries
-                        -   Efficient index locking
-                            -   Index look-up
-                                -   Identify next node (child node or root at start)
-                                -   Lock next (read lock), then unlock parent
-                                -   repeat ...
-                            -   Index update
-                                -   when updating index, the changes may propagate up until it meets a safe node (half-full < size of that node < full )
-                                -   Hence, :
-                                    -   do the same as index look-up, but only unlock parent if it is a safe node
-                                    -   execpt for _leaf node_, which using _write_ lock. Other can use either of:
-                                        -   write lock (more safe)
-                                        -   read lock (more concurrency, but might lead to abortion if it propagates up to a node also written by another transaction)\
+                -   Phantoms: `R1(A) W2(A) C2 R1(A) ...` 2 different reads have 2 different results
+                    -   To avoid phantoms:
+                        -   Predicate locking: Instead of lock only some specific rows, we lock everything satisfying the predicate. (i.e: predicate "starts with F"). _Yet, this method can be complex when the predicate becomes complex_
+                        -   Index locking: when inserting new values, it also need to update the index. By locking index, we block the new update queries
+                    -   Efficient index locking
+                        -   Index look-up
+                            -   Identify next node (child node or root at start)
+                            -   Lock next (read lock), then unlock parent
+                            -   repeat ...
+                        -   Index update
+                            -   when updating index, the changes may propagate up until it meets a safe node (half-full < size of that node < full )
+                            -   Hence, :
+                                -   do the same as index look-up, but only unlock parent if it is a safe node
+                                -   execpt for _leaf node_, which using _write_ lock. Other can use either of:
+                                    -   write lock (more safe)
+                                    -   read lock (more concurrency, but might lead to abortion if it propagates up to a node also written by another transaction)\
 
-            2.  Without locking
+        2.  Without locking
 
-                -   Pros & cons:
-                    -   pros: faster when conflicts are rare
-                    -   cons:
-                        -   keep track of TS of each object
-                        -   need to restart if conflicts happen
-                -   Types:
+            -   Pros & cons:
+                -   pros: faster when conflicts are rare
+                -   cons:
+                    -   keep track of TS of each object
+                    -   need to restart if conflicts happen
+            -   Types:
 
-                    _Each transactions assigned a time-stamp (TS) at start-up.
-                    All of the following strategies try to serialize transactions in TS order to get serializability_
+                _Each transactions assigned a time-stamp (TS) at start-up.
+                All of the following strategies try to serialize transactions in TS order to get serializability_
 
-                    1.  Optimistic
+                1.  Optimistic
 
-                            - keep track of list of objects which are read and written to
-                            - there re 3 phases:
-                                - **read** relevant data and do transaction on a private copy
-                                - **validate** check if this transaction's actions conflict with others
-                                    -  If TS(Ti) < TS(Tj). No conflict means that any modification by Ti is not visible to Tj.
-                                - **write** publish local change if no conflicts
+                        - keep track of list of objects which are read and written to
+                        - there re 3 phases:
+                            - **read** relevant data and do transaction on a private copy
+                            - **validate** check if this transaction's actions conflict with others
+                                -  If TS(Ti) < TS(Tj). No conflict means that any modification by Ti is not visible to Tj.
+                            - **write** publish local change if no conflicts
 
-                    2.  Time-stamps based
+                2.  Time-stamps based
 
-                        -   Each object is associated with **last read and write time-stamp** (RTS, and WTS)
-                        -   A transaction T, which has TS(T):
+                    -   Each object is associated with **last read and write time-stamp** (RTS, and WTS)
+                    -   A transaction T, which has TS(T):
 
-                            -   wants to read object A iff TS(T) > WTS(A)
-                            -   wants to write object A iff TS(T) > RTS(A)
-                                (when TS(T) < WTS(A), this new write action is ignored ,made obsolete and so called Thomas write>)
+                        -   wants to read object A iff TS(T) > WTS(A)
+                        -   wants to write object A iff TS(T) > RTS(A)
+                            (when TS(T) < WTS(A), this new write action is ignored ,made obsolete and so called Thomas write>)
 
-                            else, it will be aborted and restarted with larger TS
+                        else, it will be aborted and restarted with larger TS
 
-                    3.  Multi-versions
+                3.  Multi-versions
 
-                        -   Each object is kept mutiple versions based on TS it is updated. And also value RTS & WTS of each object
-                        -   A transaction T, which has TS(T):
+                    -   Each object is kept mutiple versions based on TS it is updated. And also value RTS & WTS of each object
+                    -   A transaction T, which has TS(T):
 
-                            -   wants to read object A, then **never be blocked**; always get the version whose TS right precedes to the read time
-                            -   wants to write object A iff TS(T) > RTS(A), else aborted and restarted. Successful write action also update RTS and WTS.
+                        -   wants to read object A, then **never be blocked**; always get the version whose TS right precedes to the read time
+                        -   wants to write object A iff TS(T) > RTS(A), else aborted and restarted. Successful write action also update RTS and WTS.
 
 ## 2. Durability & Atomicity
 
