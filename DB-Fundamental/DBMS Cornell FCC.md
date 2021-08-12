@@ -102,11 +102,13 @@ It is SQL. What SQL can do ?
     ![](./images/DBMS/img7.png)
 
     -   Concurrency control will pick the best scheduling based on isolation level set
-    -   In case of lock based, these level can be implemented by ([reference](https://stackoverflow.com/questions/16162357/transaction-isolation-levels-relation-with-locks-on-table)):
-        - Read uncommited: No lock
-        - Read commited: Lock on commited data (released after transaction complete `UPDATE`)
-        - Repeatable read: Lock on all read rows (released after transaction complete all related `READ`)
-        - Serializable: Lock on full table 
+    -   In case of lock based, these level can be implemented by ([reference](https://en.wikipedia.org/wiki/Isolation_%28database_systems%29#Isolation_levels)):
+        All write lock are hold until end of transaction
+        Different only in read lock
+        -   Read uncommited: No lock (for both write & read)
+        -   Read commited: Read lock on selected data (released after transaction complete `UPDATE`)
+        -   Repeatable read: Read lock on selected data (released until end of trans)
+        -   Serializable: Read lock on selected data + predicate/range lock (released until end of trans)
     -   Type of schedules:
 
         1.  Check for **serializability** (ignore aborts at first)
