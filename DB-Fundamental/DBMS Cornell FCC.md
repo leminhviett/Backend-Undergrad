@@ -90,9 +90,9 @@ It is SQL. What SQL can do ?
 -   Isolation anomalies: destroy illusion of sequential execution
 
     1. <em>Dirty read</em>: read data from uncommitted transactions
-    2. <em>Unrepeatable read</em>: inconsistent row retrieved from different times of reading
+    2. <em>Unrepeatable read</em>: <em> different rows' value (still get same set of rows)</em> retrieved from different times of reading
        `Rx(A) Wy(A) Cy Rx(A)`
-    3. <em>Phantom problem</em>: similar to <em>unrepeatable read</em>, but due to commited `UPDATE` or `DELETE` actions
+    3. <em>Phantom problem</em>: quite related to <em>unrepeatable read</em>. We get <em> different set of rows (new rows are inserted). The old rows still keep the same value </em>
     4. <em>Lost updates</em>: unsaved changes overridden by other transaction
        `Wx(A) Wy(A)`
 
