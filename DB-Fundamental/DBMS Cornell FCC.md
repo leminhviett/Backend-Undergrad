@@ -14,7 +14,8 @@ It is SQL. What SQL can do ?
     -   Create data tables(columns, type of columns, …)
     -   Define constraint, relationship on/between each table
 -   Constraint:
-    -   Primary key: define subset of columns as unique identifier for a row (in a table)- - Foreign key: define subset of columns refer to a subset of columns (UNIQUE constraint) in another table.
+    -   Primary key: define subset of columns as unique identifier for a row (in a table) (one of candidate keys)
+    -   Foreign key: define subset of columns refer to a subset of columns (UNIQUE constraint) in another table.
 -   Data manipulation
     -   Insert/ delete/ update/ create rows in a table
 -   Data analysis
@@ -428,7 +429,14 @@ From the step 2 of above the point above. We get the (sub-optimal) schema. This 
         - b is trivial of X, or
         - X is a super key (= candidate key + other attributes)
 
-    1. 3rd form
+        ```
+        i.e:
+        Table: a, b, c, d
+        FDs: a, b is candidate key
+            a, b -> c, d
+        ```
+
+    2. 3rd form
 
         _(allow some redundancy but preserve dependencies)_
 
@@ -437,6 +445,14 @@ From the step 2 of above the point above. We get the (sub-optimal) schema. This 
         - b is trivial of X, or
         - X contains a key, or
         - b is a prime key (one key belongs to a candidate key)
+
+        ```
+        i.e:
+            Table: a, b, c, d
+            FDs: a, b is candidate key
+                a, b -> c, d
+                a -> b
+        ```
 
 -   Algo to achieve these forms
 
