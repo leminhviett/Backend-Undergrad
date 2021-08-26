@@ -450,7 +450,7 @@ SELECT SUM(eur_value) FROM sales
 
 Normally data in table is stored in a heap structure, which is stored statically whenever db finds a sufficient space to store new data.
 
-Clustered index is B-tree which stored the real-data without the heap table.
+Clustered index is B-tree which **stores the real-data** without the heap table.
 
 **Advantage**:
 
@@ -461,9 +461,7 @@ Clustered index is B-tree which stored the real-data without the heap table.
 
 ![](./images/SQL_perf_explained/img5.png)
 
-When creating and using another index, so called **secondary index**, the index leaf nodes donot point to the physical data, but to the logical data.
-
-Because unlike heap structure, data is stored statically, in clustered index table the data is stored dynamically to maintain index structure.
+When creating and using another index, so called **secondary index**, the index leaf nodes donot point to the physical data, but to the logical one. Because in heap structure, data is stored statically. Unlike this, in clustered index table, the data is stored dynamically (can be changed at anytime) to maintain index structure.
 
 As a result, when look up secondary index, we also need to look up the primary index as well.
 
@@ -476,7 +474,7 @@ You can still use index-only (called secondary index scan) scans to avoid the ta
 
 # 6. Sorting & Grouping
 
-_third power of indexing._
+**_third power of indexing._**
 
 Sorting is very resource extensive (CPU). Moreover, it needs temporary buffer data to store the result. In other word, cannot execute in pipeline manner.
 
@@ -592,16 +590,16 @@ _Cost of maintaining index when doing INSERT, UPDATE, DELETE_
 
 **INSERT**
 
-The only command does not benefit from index as it has not WHERE clause
+The **_only command does not benefit from index_** as it has not WHERE clause
 
-When insert a row, db needs to add that row to ALL indexes (of the altered table) such that make sure that row can be founded in all indexes. The more indexes need to be added, the mover overhead time
+When insert a row, db needs to add that row to **_ALL indexes_** (of the altered table) such that make sure that row can be founded in all indexes. The more indexes need to be added, the mover overhead time
 
 **DELETE**
 
 Unlike the insert statement, the delete statement has a where clause that can use all the methods described in Chapter 2
 
-Though it also need to maintain ALL indexes (of the altered table) as well
+Though it also need to **_maintain ALL indexes_** (of the altered table) as well
 
 **UPDATE**
 
-Update also like the 2 above, the only difference is that _it only affects indexes that contains updated columns_
+Update also like the 2 above, the only difference is that it **only affects indexes that contains updated columns**
