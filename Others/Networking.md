@@ -98,3 +98,11 @@
         -   error detection
 -   Physical layer:
     -   convert packet (in Bits 1/0) into signal (electric/ light/ radio) then transmit
+
+# Why SSL is needed
+
+-   Secure communication (encrypt & decrypt message)
+-   Authentication (server: compulsory, client: optional) - with the help of CA
+-   Digital signature (non-repudation & intergrity of message)
+    -   DS = Encrypt_by_secret_key( Hashed (Message))
+    -   Hash be4 encrypttion using secret key is becz of size of hash is smaller
