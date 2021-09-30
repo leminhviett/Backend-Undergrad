@@ -31,15 +31,17 @@
 
     1. Client Hello.
         1. Client support algo, TLS version, cypher suite, ...
+        2. Random string
     2. Server Hello.
         1. Agree on TLS version & cypher suite.
         2. Sever certificate & public key
         3. Session ID
+        4. Random string
     3. Client:
         1. verify server cert.
-        2. send back session shared key (encrypted by server public key)
+        2. send back premastered key (encrypted by server public key), with 2 prev random string => session shared key
         3. send finished message (encrypted by session shared key)
-    4. Server decrypte it & get the key. Then send finished message (encrypted by session shared key)
+    4. Server decrypte it & get the same shared session key. Then send finished message (encrypted by session shared key)
 
 6. First GET/ index.html. (It will go through all the layers & sent to server)
 7. Respond HTML file & client will parse & display it (query more if necessary)
@@ -95,7 +97,7 @@
         -   frames = header (contains MAC address) + packet + trailer (error checksum)
     -   Control how data is put/take into/from media device:
         -   media access control
-        -   error detection
+        -   error detection & flow controlx
 -   Physical layer:
     -   convert packet (in Bits 1/0) into signal (electric/ light/ radio) then transmit
 

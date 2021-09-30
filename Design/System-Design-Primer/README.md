@@ -97,7 +97,7 @@ Review the [Contributing Guidelines](CONTRIBUTING.md).
   <br/>
 </p>
 
-- [The System Design Primer](#the-system-design-primer)
+- [The System Design Primer [My self-study draft]](#the-system-design-primer-my-self-study-draft)
   - [Motivation](#motivation)
     - [Learn how to design large-scale systems](#learn-how-to-design-large-scale-systems)
     - [Learn from the open source community](#learn-from-the-open-source-community)

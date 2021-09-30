@@ -68,15 +68,16 @@ It is SQL. What SQL can do ?
         -   2 types of implementation:
 
             -   B-tree
-                -   Content of inner node: store search key and reference to page containing search keys which are greater than its key
+
+                -   Content of inner node: store search key and reference to page containing search keys which are greater/smaller than its key
                 -   Content of leaf node: store search key and real physical address/ or the real data of that search key
                 -   This implementation can be used for both equality or inequality queries (== or >, <, >=, <=)
 
-        -   Hash index
-            -   Only useful for equality conditions
-                -   Static hashing
-                -   Extendible hashing: use more bit of hashed value in case of overflow
-                -   Linear hashing
+            -   Hash index
+                -   Only useful for equality conditions
+                    -   Static hashing
+                    -   Extendible hashing: use more bit of hashed value in case of overflow
+                    -   Linear hashing
 
 # 3. Transaction
 

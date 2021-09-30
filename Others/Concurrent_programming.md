@@ -43,7 +43,7 @@ Compare between [Semaphores](https://blog.feabhas.com/2009/09/mutex-vs-semaphore
 
         Multiple condtion variables can share a same lock. But vice versa is not correct
 
-    -   Usage:
+    -   Usage: signalling & synchronization
 
         ```
         Initialization: Cv, states, Lock

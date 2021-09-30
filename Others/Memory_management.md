@@ -37,7 +37,7 @@ Load a program from secondary to main memory
 
 # Memory allocation
 
-1. Contiguous allocation (like an array)
+**1. Contiguous allocation (like an array)**
 
 -   Fixed/ static partition
     -   Internal fragmentation
@@ -52,7 +52,7 @@ Yet, can be solved by:
 
 -   Non-contiguous allocation (see below)
 
-1. Non-contiguous allocation (like a linked-list)
+**2. Non-contiguous allocation (like a linked-list)**
 
 Logical Address Space of a process >= its Physical Address Space, which OS allocated to it.
 
