@@ -1,6 +1,6 @@
 # 1. List
 
-![](images/list.png)
+<img src="images/list.png" height=300>
 
 -   Properies:
     -   _Allocated_: # of slots allocated in memory (this # can be smaller than real _size_ of list (len))
@@ -20,7 +20,7 @@
 
 # 2. Dictionary
 
-![](images/dict.png)
+<img src="images/dict.png" height=300>
 
 -   array of pointers point to object of 3 properties: `hash_val`, `key` & `value` pair.
 -   Insert:
@@ -45,7 +45,7 @@
 
 # 3. D-queue (Double ended queue)
 
-![](images/d_queue.png)
+<img src="images/d_queue.png" width=600>
 
 -   A linked list, whose each node is an array/block of 64 pointers (pointing to elements).
 -   Left & right pointer, initialized at the middle of an array, point to first & last element of the queue

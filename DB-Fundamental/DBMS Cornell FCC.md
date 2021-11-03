@@ -1,4 +1,4 @@
-![Overview](./images/DBMS/img1.png "Overview")
+<img src="./images/DBMS/img1.png" width="600">
 
 DBMS:
 
@@ -26,14 +26,14 @@ It is SQL. What SQL can do ?
 # 2. Data storage
 
 -   Hardware
-    ![](./images/DBMS/img2.png "Hardware hierachy")
+    <img src="./images/DBMS/img2.png" width="600">
 
     -   Design motivation
         -   Database needs large capacity => need lower hierarchy storage type
         -   Access speed may become bottleneck => need algo to minimize data movement
         -   Keep related data close together, read the whole as pages instead of single bit or byte (as those storage random access is expensive)
     -   Hard disk: typically used as physical storage.
-        ![](./images/DBMS/img3.png "Hardware hierachy")
+        <img src="./images/DBMS/img3.png" width="600">
 
             -   Sector is characteristics of disk & can’t be changed
             -   Disk blocks (pages) == multiple of sectors (the number can be set when init). It is **smallest unit of data being read from or written to disk**
@@ -44,14 +44,14 @@ It is SQL. What SQL can do ?
 
     -   Table schema is stored in “database catalog”
     -   Each table is divided into pages (smallest data unit in DB). There are 2 representation of pages:
-        ![](./images/DBMS/img4.png "Hardware hierachy")
+        <img src="./images/DBMS/img4.png" width="600">
 
         -   As linked list:
             -   Each page contains pointers to next/prior page
             -   Page can be full or partially empty
             -   Header’s reference saved in DB catalog
 
-        ![](./images/DBMS/img5.png "Hardware hierachy")
+        <img src="./images/DBMS/img5.png" width="600">
 
         -   Via directories
             -   Each directory store pointer to page
@@ -101,7 +101,7 @@ It is SQL. What SQL can do ?
     5. Write skew: this is not defined in SQL official. Yet, it is still important. If 2 transactions happen at the same time & both write to the same data. Then 1 will fail
 
 -   <em>Issolation level</em> (can be set globally/ for each transaction; depending on application type)
-    ![](./images/DBMS/img7.png)
+    <img src="./images/DBMS/img7.png" width=600>
 
     -   Concurrency control will pick the best scheduling based on isolation level set
     -   In case of lock based, these level can be implemented by ([reference](https://en.wikipedia.org/wiki/Isolation_%28database_systems%29#Isolation_levels)):
@@ -118,7 +118,7 @@ It is SQL. What SQL can do ?
             -   **serial schedule** is the standard (which remains the DB consistent state if all transaction preserves the consistency)
             -   **Serializability** is the ability of a schedule that can be **equipvalence** with a **serial schedule** (in terms of db state, data values)
 
-            ![](./images/DBMS/img8.png)
+            <img src="./images/DBMS/img8.png" width=600>
 
             -   **There** are 2 **equipvalence** types, which meet the requirement of **serializable isolation level**:
                 -   <em>View equipvalence</em>: 2 schedules are view equip if it has the same _"view" (do read & write operation)_ on every object value
@@ -454,6 +454,18 @@ From the step 2 of above the point above. We get the (sub-optimal) schema. This 
                 a, b -> c, d
                 a -> b
         ```
+
+    -   forms in a nutshell (allow FD):
+
+        -   Bcnf:
+            -   Candidate key-> normal
+        -   3rd:
+            -   Candidate key-> normal
+            -   Prime -> prime
+        -   2nd:
+            -   Candidate key-> normal
+            -   Prime -> prime
+            -   Non prime -> non prime
 
 -   Algo to achieve these forms
 
