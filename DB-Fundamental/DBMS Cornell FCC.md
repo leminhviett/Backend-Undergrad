@@ -26,6 +26,7 @@ It is SQL. What SQL can do ?
 # 2. Data storage
 
 -   Hardware
+
     <img src="./images/DBMS/img2.png" width="600">
 
     -   Design motivation
@@ -33,6 +34,7 @@ It is SQL. What SQL can do ?
         -   Access speed may become bottleneck => need algo to minimize data movement
         -   Keep related data close together, read the whole as pages instead of single bit or byte (as those storage random access is expensive)
     -   Hard disk: typically used as physical storage.
+
         <img src="./images/DBMS/img3.png" width="600">
 
             -   Sector is characteristics of disk & can’t be changed
