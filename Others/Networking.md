@@ -29,6 +29,10 @@
 
 5. TLS handshake
 
+    [Ref](https://www.cloudflare.com/en-gb/learning/ssl/what-happens-in-a-tls-handshake/)
+
+    All TLS handshakes make use of asymmetric encryption (the public and private key), but not all will use the public key in the process of generating session keys. For instance, an ephemeral Diffie-Hellman handshake. The following example describes a method of both using public & private key. 
+    
     1. Client Hello.
         1. Client support algo, TLS version, cypher suite, ...
         2. Random string
