@@ -43,7 +43,7 @@
         4. Random string
     3. Client:
         1. verify server cert.
-        2. send back premastered key (encrypted by server public key), with 2 prev random string => session shared key
+        2. send back premastered key (encrypted by server public key) to server. Pre-mastered kye + 2 prev random string => session shared key
         3. send finished message (encrypted by session shared key)
     4. Server decrypte it & get the same shared session key. Then send finished message (encrypted by session shared key)
 
