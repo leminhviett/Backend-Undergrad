@@ -550,11 +550,19 @@ _Networks aren't reliable, so you'll need to support partition tolerance. You'll
 
 Waiting for a response from the partitioned node might result in a timeout error. CP is a good choice if your business needs require atomic reads and writes.
 
+*Read* & *Write* operation might not available in some cases. 
+
+i.e: In case of master-slave architecture, *read* on slave that are partitioned from master; *write* on master, but replication algo fails to replicate (due to small # of connected slaves nodes with master)
+
 #### AP - availability and partition tolerance
 
 Responses return the most readily available version of the data available on any node, which might not be the latest. Writes might take some time to propagate when the partition is resolved.
 
+*Read* & *Write* operation both are allowed to execute & return response.
+
 AP is a good choice if the business needs allow for [eventual consistency](#eventual-consistency) or when the system needs to continue working despite external errors.
+
+
 
 ### Source(s) and further reading
 
