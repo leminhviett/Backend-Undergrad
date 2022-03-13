@@ -50,10 +50,12 @@ Compare between [Semaphores](https://blog.feabhas.com/2009/09/mutex-vs-semaphore
 
         with Lock:
             while (some condition using states):
-            Cv.wait() # enter critical region
+                Cv.wait() 
+                
+            # enter critical region
 
-                    # states might be changed here
-                    cv.signal()
+            # states might be changed here & we might call signal()
+            cv.signal()
         ```
 
 2.  **Monitors**
