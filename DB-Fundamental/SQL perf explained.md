@@ -1,5 +1,44 @@
 _(this books requires basic understanding of index)_
 
+- [1: Anatomy of index](#1--anatomy-of-index)
+  * [Key concepts](#key-concepts)
+- [2. The where clause](#2-the-where-clause)
+  * [The equality operator](#the-equality-operator)
+  * [Functions](#functions)
+  * [Parameterized queries](#parameterized-queries)
+  * [Searching for ranges](#searching-for-ranges)
+    + [>, <, and between](#------and-between)
+    + [Like filters](#like-filters)
+    + [Index merge](#index-merge)
+  * [Partial index](#partial-index)
+  * [NULL value](#null-value)
+    + [Indexing with NULL](#indexing-with-null)
+    + [NOT NULL constraint](#not-null-constraint)
+  * [Obfuscated conditions](#obfuscated-conditions)
+    + [Date types](#date-types)
+    + [Numeric strings](#numeric-strings)
+    + [Math](#math)
+  * [3. Performance & Scalability](#3-performance---scalability)
+  * [4. The join operator](#4-the-join-operator)
+    + [Nested loop](#nested-loop)
+    + [Hash join](#hash-join)
+    + [Sort merge](#sort-merge)
+  * [5. Clustering data](#5-clustering-data)
+    + [Index filter predicate used intentionally](#index-filter-predicate-used-intentionally)
+    + [Index-only scan](#index-only-scan)
+    + [Index-organized tables (Clustered index)](#index-organized-tables--clustered-index-)
+- [6. Sorting & Grouping](#6-sorting---grouping)
+  * [Order by](#order-by)
+  * [ASC, DESC & NULL first/last](#asc--desc---null-first-last)
+  * [Group by](#group-by)
+- [7. Partial result](#7-partial-result)
+  * [Querying Top-N rows](#querying-top-n-rows)
+  * [Paging through result](#paging-through-result)
+- [8. Modifying data](#8-modifying-data)
+
+<small><i><a href='http://ecotrust-canada.github.io/markdown-toc/'>Table of contents generated with markdown-toc</a></i></small>
+
+
 # 1: Anatomy of index
 
 1. Purpose of the index is to represent data in an ordered manner.
