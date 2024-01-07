@@ -1,13 +1,13 @@
 - [1. DBMSS Interface](#1-dbmss-interface)
 - [2. Data storage](#2-data-storage)
 - [3. Transaction](#3-transaction)
-  * [1. **Isolation**](#1---isolation--)
-  * [2. Durability & Atomicity](#2-durability---atomicity)
+  - [1. **Isolation**](#1-isolation)
+  - [2. Durability \& Atomicity](#2-durability--atomicity)
 - [4. Database design](#4-database-design)
-  * [1. Requirement Analysis (biz process)](#1-requirement-analysis--biz-process-)
-  * [2. Conceptual Design (Model DB via ER diagrams)](#2-conceptual-design--model-db-via-er-diagrams-)
-  * [3. Schema normalization](#3-schema-normalization)
-  * [4. Physical tuning](#4-physical-tuning)
+  - [1. Requirement Analysis (biz process)](#1-requirement-analysis-biz-process)
+  - [2. Conceptual Design (Model DB via ER diagrams)](#2-conceptual-design-model-db-via-er-diagrams)
+  - [3. Schema normalization](#3-schema-normalization)
+  - [4. Physical tuning](#4-physical-tuning)
 
 <small><i><a href='http://ecotrust-canada.github.io/markdown-toc/'>Table of contents generated with markdown-toc</a></i></small>
 
@@ -120,13 +120,13 @@ It is SQL. What SQL can do ?
     <img src="./images/DBMS/img7.png" width=600>
 
     -   Concurrency control will pick the best scheduling based on isolation level set
-    -   In case of lock based, these level can be implemented by ([reference](https://en.wikipedia.org/wiki/Isolation_%28database_systems%29#Isolation_levels)):
-        All write lock are hold until end of transaction
-        Different only in read lock
-        -   Read uncommited: No lock (for both write & read)
-        -   Read commited: Read lock on selected data (released after transaction complete `UPDATE`)
-        -   Repeatable read: Read lock on selected data (released until end of trans)
-        -   Serializable: Read lock on selected data + predicate/range lock (released until end of trans)
+    -   In case of lock based, these level can be implemented by ([reference](https://en.wikipedia.org/wiki/Isolation_%28database_systems%29#Isolation_levels)): 
+        -   All **write lock** are hold until end of transaction
+        -   Different only in read lock:
+            -   Read uncommited: No lock
+            -   Read commited: **Read lock** on selected data (released after transaction complete `SELECT`)
+            -   Repeatable read: **Read lock** on selected data (released until end of trans)
+            -   Serializable: **Read lock** on selected data + **predicate/range lock** (released until end of trans)
     -   Type of schedules:
 
         1.  Check for **serializability** (ignore aborts at first)
